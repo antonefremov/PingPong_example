@@ -25,12 +25,11 @@ contract("PingPong", function () {
   this.timeout(0);
 
   it("should call the ping method", async function () {
-    let result = await PingPong.methods.ping().call();
+
+    let result = await PingPong.methods.ping().send();
+    const txResult = result.events;
+    console.log(txResult);
     assert.ok(1);
-    const txResult = PingPong.transactionWhichResultsInAnEvent();
-    const events = txResult.events;
-    // now we can inspect the events
-    console.log(events);
 
   });
 

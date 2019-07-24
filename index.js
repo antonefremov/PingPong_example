@@ -21,7 +21,7 @@ app.use(function (state, emitter) {
 
         web3 = new Web3(new Web3.providers.WebsocketProvider("ws://localhost:8556"));
         // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8556"));
-        state.contractInstance = new web3.eth.Contract(contractABI, "0xe382d20e72E5681C15aBBb30C7E1063138A78F99");
+        state.contractInstance = new web3.eth.Contract(contractABI, "0x4457Fa890f341b889822A11a426128AAe380CbAe");
 
         const accounts = await web3.eth.getAccounts();
         state.account = accounts[0];
