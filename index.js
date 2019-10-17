@@ -21,7 +21,7 @@ app.use(function (state, emitter) {
 
         web3 = new Web3(new Web3.providers.WebsocketProvider("ws://localhost:8556"));
         // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8556"));
-        state.contractInstance = new web3.eth.Contract(contractABI, "0x4457Fa890f341b889822A11a426128AAe380CbAe");
+        state.contractInstance = new web3.eth.Contract(contractABI, "0xCac889Ac68D9672ef7a95a556E8bF5aA18Aa8988");
 
         const accounts = await web3.eth.getAccounts();
         state.account = accounts[0];
@@ -38,12 +38,13 @@ app.use(function (state, emitter) {
         });
 
         // Listen for the LogUpload event, push a new item into the state and trigger re-render
-        state.contractInstance.events.Pong((err, event) => {
+        state.contractInstance.events.Pong({}, (err, event) => {
             if (err) {
                 console.error(err);
             }
 
             console.log('Pong event has been caught');
+            console.log(event);
         });
 
         emitter.emit('render');
@@ -63,6 +64,17 @@ const main = (state, emit) => {
     function firePingCall(e) {
         e.preventDefault();
         state.contractInstance.methods.ping().send({ from: web3.eth.defaultAccount });
+
+        state.contractInstance.getPastEvents('Pong', {
+            // filter: {myIndexedParam: [20,23], myOtherIndexedParam: '0x123456789...'}, // Using an array means OR: e.g. 20 or 23
+            fromBlock: 22,
+            toBlock: 'latest'
+        }, function(error, events){ 
+            console.log(events); 
+        })
+        // .then(function(events){
+        //     console.log(events) // same results as the optional callback above
+        // });
     }
 }
 
